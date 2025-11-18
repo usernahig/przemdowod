@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#FFFFFF">
+  <title>mObywatel 2.0 - Demo</title>
+  <link rel="shortcut icon" href="mobywatellogo.svg" type="image/x-icon">
+  <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#317EFB">
+
+  <style>
+    @font-face {
+      font-family: Roboto; font-style: normal; font-weight: 300;
+      src: url(/assets/roboto_regular.ttf) format("truetype");
+    }
+    :root { --blue-active: #064792; }
+    * { user-select: none; box-sizing: border-box; }
+    body, html { height:100%; margin:0; padding:0; font-family: Roboto, sans-serif; background:#f5f6fb; color:#131419; }
+    .Login_container_1 { min-height:100vh; display:flex; flex-direction:column; justify-content:space-between; align-items:center; padding:20px; }
+    .Login_main_1 { flex:1 1; display:flex; flex-direction:column; justify-content:center; align-items:center; width:100%; }
+    .Login_changePassword_1 { background-color:#dbebfa; border-radius:50%; width:6em; height:6em; display:flex; justify-content:center; align-items:center; }
+    .Login_changePasswordIcon { color:#075094; width:4em; height:4em; }
+    .Login_bioLogin { background-color:#dbebfa; text-align:center; margin:10px 0; line-height:0; border-radius:10em; padding:.2em 1em; }
+    .tekst_biometeria { color:#075094; font-size:.8em; font-weight:bold; }
+    .Login_passwordSection { background-color:#fff; display:flex; flex-direction:column; align-items:stretch; width:100%; padding:15px; border-radius:15px; max-width:400px; margin:20px 0; }
+    .Login_passwordLabel { color:#696978; font-size:.8em; font-weight:300; text-align:left; }
+    .Login_passwordInput { padding:1em; font-size:1em; border:1px solid #56595b; background-color:#fff; border-radius:.2em; width:100%; box-sizing:border-box; margin-top:.5em; }
+    .Login_passwordInput::placeholder { color:#696978; }
+    .Login_forgotPassword { color:#075094; text-align:right; font-size:.8em; font-weight:300; }
+    .Login_passwordContainer { position:relative; width:100%; }
+    .Login_eyeIcon__A9_oq { position:absolute; right:10px; top:50%; transform:translateY(-35%); cursor:pointer; }
+    .Login_submitButton { width:100%; padding:.6em; background-color:#024a94; color:#fff; border:none; border-radius:5em; cursor:pointer; margin-top:5em; font-size:1em; font-weight:600; }
+    .Login_footer { display:flex; justify-content:space-between; align-items:center; width:100%; max-width:400px; margin-top:20px; }
+    .Login_footerImages { display:flex; gap:10px; }
+    .Login_versionText { font-size:12px; font-weight:300; color:#9c9da2; }
+    .error-msg { color:#b00020; font-size:.9em; margin-top:.6em; display:none; }
+    @media (max-width:768px) { .Login_passwordSection { width:100%; } .Login_submitButton { width:calc(100% - 20px); } }
+  </style>
+</head>
+<body>
+  <div class="dynamic-panel">
+    <div class="Login_container_1">
+      <main class="Login_main_1">
+        <img src="coi_common_ic_mobywatel_horizontal_logo_text.svg" alt="Logo" class="Login_logoTop" style="position:absolute; top:20px; width:60%; max-width:320px;">
+
+        <div class="Login_changePassword_1" style="margin-top:60px;">
+          <img src="aa008_change_password_blue.svg" alt="Change Password" class="Login_changePasswordIcon">
+        </div>
+
+        <p style="font-weight:700; font-size:5vw; margin-bottom:1em; margin-top:2em;">Wpisz hasło</p>
+
+        <div class="Login_bioLogin">
+          <p class="tekst_biometeria">Logowanie biometrią</p>
+        </div>
+
+        <div class="Login_passwordSection">
+          <p class="Login_passwordLabel">Hasło</p>
+          <div class="Login_passwordContainer">
+            <!-- WAŻNE: id pola używane w JS -->
+            <input id="passwordInput" type="password" placeholder="Wpisz hasło" class="Login_passwordInput" autocomplete="off" />
+          </div>
+          <p class="Login_forgotPassword">Nie pamiętam hasła</p>
+
+          <!-- miejsce na komunikat błędu -->
+          <div id="errorMsg" class="error-msg">Błędne hasło!</div>
+        </div>
+      </main>
+
+      <!-- przycisk wywołuje funkcję checkPassword() -->
+      <button class="Login_submitButton" onclick="checkPassword()">
+        <p style="margin:0;">Zaloguj się</p>
+      </button>
+
+      <footer class="Login_footer">
+        <div class="Login_footerImages">
+          <img src="coi_common_ui_ic_coi_mobywatel_logo.svg" alt="Footer Image 1" style="width:5em; height:auto;">
+          <img src="coi_common_ui_ic_mc_mobywatel_logo.svg" alt="Footer Image 2" style="width:4em; height:auto;">
+        </div>
+        <p class="Login_versionText">wersja 4.41.2 (8)</p>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // Poprawna wartość hasła
+      const CORRECT_PASSWORD = 'przem10';
+
+      // Pobieramy elementy
+      const passwordInput = document.getElementById('passwordInput');
+      const errorMsg = document.getElementById('errorMsg');
+
+      // Funkcja sprawdzająca hasło
+      window.checkPassword = function() {
+        const typed = passwordInput.value || '';
+        // wyczyść komunikat
+        errorMsg.style.display = 'none';
+
+        if (typed === CORRECT_PASSWORD) {
+          // poprawne -> przekierowanie
+          // (możesz tu dodać inne akcje)
+          window.location.href = 'dashboard.html';
+        } else {
+          // niepoprawne -> pokaż komunikat
+          errorMsg.style.display = 'block';
+          // Odśwież efekt (opcjonalnie zaznacz pole)
+          passwordInput.focus();
+          passwordInput.select();
+        }
+      };
+
+      // Obsługa Enter w polu hasła
+      passwordInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          checkPassword();
+        }
+      });
+
+      // Dla testów: zapobiegamy autouzupełnieniu przeglądarki
+      passwordInput.setAttribute('autocomplete', 'off');
+    })();
+  </script>
+</body>
+</html>
